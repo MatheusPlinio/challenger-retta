@@ -1,36 +1,35 @@
-FROM php:8.3-fpm-alpine
+FROM php:8.2-fpm
 
-RUN apk add --no-cache \
-    bash \
+RUN apt-get update && apt-get install -y \
     git \
     curl \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
     zip \
     unzip \
-    libpng-dev \
-    libjpeg-turbo-dev \
-    libwebp-dev \
-    libxpm-dev \
-    freetype-dev \
     libzip-dev \
-    oniguruma-dev \
-    nginx \
+    cron \
     supervisor \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
-    && docker-php-ext-install pdo pdo_mysql mbstring zip gd
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www
 
-COPY . .
+COPY . /var/www
 
-RUN composer install --optimize-autoloader --no-dev
+RUN chown -R www-data:www-data /var/www \
+    && chmod -R 755 /var/www/storage \
+    && chmod -R 755 /var/www/bootstrap/cache
 
-RUN chown -R www-data:www-data /var/www
+RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY supervisord.conf /etc/supervisord.conf
+RUN php artisan config:cache \
+    && php artisan route:cache \
+    && php artisan view:cache
 
-EXPOSE 80
+EXPOSE 9000
 
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
+CMD ["php-fpm"]
