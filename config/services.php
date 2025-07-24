@@ -33,6 +33,9 @@ return [
             'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
+    'OpenData' => [
+        'url' => env('API_OPEN_DATA_URL', 'https://dadosabertos.camara.leg.br/api/v2')
+    ]
     ],
 
 ];
