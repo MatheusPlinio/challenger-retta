@@ -46,7 +46,7 @@ class OpenDataService implements OpenDataInterface
 
     public function getDeputados(DeputadosRequestDTO $params): DeputadosResponseDTO
     {
-        $response = $this->client->get('/deputados', ['query' => $params]);
+        $response = $this->client->get('/deputados', $params->toArray());
 
         return DeputadosResponseDTO::fromArray($response->json());
     }
@@ -55,7 +55,7 @@ class OpenDataService implements OpenDataInterface
     {
         $response = $this->client->get("/deputados/{$params->id}");
 
-        return $response->json();
+        return DeputadoByIdResponseDTO::fromArray($response->json());
     }
 
     public function getDeputadoDespesas(DeputadoDespesasRequestDTO $params): DeputadoDespesasResponseDTO

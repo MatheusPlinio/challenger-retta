@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Deputado extends Model
 {
     protected $fillable = [
+        "id",
         "uri",
         "nome",
         "siglaPartido",
@@ -16,6 +17,8 @@ class Deputado extends Model
         "urlFoto",
         "email"
     ];
+
+    public $incrementing = false;
 
     public function despesas()
     {

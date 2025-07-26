@@ -21,6 +21,16 @@ class DeputadosResponseDTO
 
         return new self($dados);
     }
+
+    public function count(): int
+    {
+        return count($this->dados);
+    }
+
+    public function getIterator(): \ArrayIterator
+    {
+        return new \ArrayIterator($this->dados);
+    }
 }
 
 class DeputadoDTO
