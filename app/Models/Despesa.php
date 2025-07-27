@@ -24,11 +24,23 @@ class Despesa extends Model
         "valorDocumento",
         "valorGlosa",
         "valorLiquido",
-        "user_id"
+        "deputado_id"
     ];
 
     public function deputado()
     {
         return $this->belongsTo(Deputado::class);
+    }
+
+    public function groupedByMonth()
+    {
+        return $this->groupBy(fn($item) => Carbon::parse($item->dataDocumento)->format('Y-m'))
+            ->map(fn($group) => $group->sum('valorDocumento'));
+    }
+
+    public function groupedByCategory()
+    {
+        return $this->groupBy('tipoDespesa')
+            ->map(fn($group) => $group->sum('valorDocumento'));
     }
 }

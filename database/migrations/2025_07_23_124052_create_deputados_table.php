@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('deputados', function (Blueprint $table) {
             $table->id();
-            $table->text("uri");
+            $table->text("uri")->nullable();
             $table->string("nome");
-            $table->string("siglaPartido", 8);
-            $table->text("uriPcolumn: artido");
-            $table->char("siglaUf", 2);
-            $table->bigInteger("idLegislatura");
-            $table->text("urlFoto");
-            $table->string("email");
+            $table->string("siglaPartido")->nullable();
+            $table->text("uriPartido")->nullable();
+            $table->char("siglaUf")->nullable();
+            $table->bigInteger("idLegislatura")->nullable();
+            $table->text("urlFoto")->nullable();
+            $table->string("email")->nullable();
             $table->timestamps();
         });
     }

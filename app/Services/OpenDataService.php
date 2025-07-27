@@ -6,6 +6,7 @@ use App\DTOs\OpenData\DeputadoByIdRequestDTO;
 use App\DTOs\OpenData\DeputadoByIdResponseDTO;
 use App\DTOs\OpenData\DeputadoDespesasRequestDTO;
 use App\DTOs\OpenData\DeputadoDespesasResponseDTO;
+use App\DTOs\OpenData\DeputadoDiscursosRequestDTO;
 use App\DTOs\OpenData\DeputadoDiscursosResponseDTO;
 use App\DTOs\OpenData\DeputadoEventosRequestDTO;
 use App\DTOs\OpenData\DeputadoEventosResponseDTO;
@@ -29,7 +30,6 @@ use App\DTOs\OpenData\LegislaturaMesasRequestDTO;
 use App\DTOs\OpenData\LegislaturaMesasResponseDTO;
 use App\DTOs\OpenData\ReferenciaDeputadoSituacaoResponseDTO;
 use App\Services\Contracts\OpenDataInterface;
-use DeputadoDiscursosRequestDTO;
 use Http;
 use Illuminate\Http\Client\PendingRequest;
 
@@ -46,7 +46,7 @@ class OpenDataService implements OpenDataInterface
 
     public function getDeputados(DeputadosRequestDTO $params): DeputadosResponseDTO
     {
-        $response = $this->client->get('/deputados', ['query' => $params]);
+        $response = $this->client->get('/deputados', $params->toArray());
 
         return DeputadosResponseDTO::fromArray($response->json());
     }
@@ -55,13 +55,13 @@ class OpenDataService implements OpenDataInterface
     {
         $response = $this->client->get("/deputados/{$params->id}");
 
-        return $response->json();
+        return DeputadoByIdResponseDTO::fromArray($response->json());
     }
 
     public function getDeputadoDespesas(DeputadoDespesasRequestDTO $params): DeputadoDespesasResponseDTO
     {
-        $response = $this->client->get("/deputados/{$params->id}/despesas", ['query' => $params]);
-        return $response->json();
+        $response = $this->client->get("/deputados/{$params->id}/despesas", $params->toArray());
+        return DeputadoDespesasResponseDTO::fromArray($response->json());
     }
 
     public function getDeputadoDiscursos(DeputadoDiscursosRequestDTO $params): DeputadoDiscursosResponseDTO

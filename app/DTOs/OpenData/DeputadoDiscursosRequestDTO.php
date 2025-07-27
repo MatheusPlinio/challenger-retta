@@ -1,5 +1,7 @@
 <?php
 
+namespace App\DTOs\OpenData;
+
 class DeputadoDiscursosRequestDTO
 {
     public function __construct(

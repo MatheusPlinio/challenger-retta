@@ -6,6 +6,7 @@ use App\DTOs\OpenData\DeputadoByIdRequestDTO;
 use App\DTOs\OpenData\DeputadoByIdResponseDTO;
 use App\DTOs\OpenData\DeputadoDespesasRequestDTO;
 use App\DTOs\OpenData\DeputadoDespesasResponseDTO;
+use App\DTOs\OpenData\DeputadoDiscursosRequestDTO;
 use App\DTOs\OpenData\DeputadoDiscursosResponseDTO;
 use App\DTOs\OpenData\DeputadoEventosRequestDTO;
 use App\DTOs\OpenData\DeputadoEventosResponseDTO;
@@ -28,7 +29,6 @@ use App\DTOs\OpenData\LegislaturaLideresResponseDTO;
 use App\DTOs\OpenData\LegislaturaMesasRequestDTO;
 use App\DTOs\OpenData\LegislaturaMesasResponseDTO;
 use App\DTOs\OpenData\ReferenciaDeputadoSituacaoResponseDTO;
-use DeputadoDiscursosRequestDTO;
 
 interface OpenDataInterface
 {
