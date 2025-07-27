@@ -26,17 +26,33 @@ class Deputado extends Model
         return $this->hasMany(Despesa::class);
     }
 
-    public function despesasPorMes(): Collection
+    public function availableYears(): array
     {
-        return $this->despesas
-            ->groupBy(fn($item) => \Carbon\Carbon::parse($item->dataDocumento)->format('Y-m'))
-            ->map(fn($group) => $group->sum('valorDocumento'));
+        return $this->despesas()
+            ->select('ano')
+            ->groupBy('ano')
+            ->orderByDesc('ano')
+            ->pluck('ano')
+            ->toArray();
     }
 
-    public function despesasPorCategoria(): Collection
+    public function monthlyExpenses(string|int $year): array
     {
-        return $this->despesas
+        return $this->despesas()
+            ->where('ano', $year)
+            ->get()
+            ->groupBy('mes')
+            ->map(fn(Collection $group) => $group->sum('valorDocumento'))
+            ->toArray();
+    }
+
+    public function expensesByCategory(string|int $year): array
+    {
+        return $this->despesas()
+            ->where('ano', $year)
+            ->get()
             ->groupBy('tipoDespesa')
-            ->map(fn($group) => $group->sum('valorDocumento'));
+            ->map(fn(Collection $group) => $group->sum('valorDocumento'))
+            ->toArray();
     }
 }

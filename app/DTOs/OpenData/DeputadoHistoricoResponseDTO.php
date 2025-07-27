@@ -14,29 +14,3 @@ class DeputadoHistoricoResponseDTO
     ) {
     }
 }
-
-class HistoricoDTO
-{
-    public function __construct(
-        public int $idLegislatura,
-        public string $dataInicio,
-        public string $dataFim,
-        public string $uf,
-        public int $idPartido,
-        public string $siglaPartido,
-        public string $uriPartido,
-        public string $titulo,
-        public string $nome
-    ) {
-    }
-}
-
-class LinkDTO
-{
-    public function __construct(
-        public string $href,
-        public string $rel,
-        public string $type
-    ) {
-    }
-}

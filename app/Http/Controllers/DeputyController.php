@@ -27,27 +27,6 @@ class DeputyController extends Controller
 
         $selectedYear = request('year') ?? date('Y');
 
-        $availableYears = $deputy->despesas()
-            ->select('ano')
-            ->groupBy('ano')
-            ->orderByDesc('ano')
-            ->pluck('ano')
-            ->toArray();
-
-        $monthlyExpenses = $deputy->despesas()
-            ->where('ano', $selectedYear)
-            ->get()
-            ->groupBy('mes')
-            ->map(fn($group) => $group->sum('valorDocumento'))
-            ->toArray();
-
-        $byCategory = $deputy->despesas()
-            ->where('ano', $selectedYear)
-            ->get()
-            ->groupBy('tipoDespesa')
-            ->map(fn($group) => $group->sum('valorDocumento'))
-            ->toArray();
-
         if (
             !$deputy ||
             !$deputy->despesas()->exists() ||
@@ -56,6 +35,10 @@ class DeputyController extends Controller
             FetchOthersDataDeputy::dispatch(new DeputadoByIdRequestDTO($id));
             return view('deputies.loading', compact('id'));
         }
+
+        $availableYears = $deputy->availableYears();
+        $monthlyExpenses = $deputy->monthlyExpenses($selectedYear);
+        $byCategory = $deputy->expensesByCategory($selectedYear);
 
         return view('deputies.show', compact(
             'deputy',
@@ -74,7 +57,7 @@ class DeputyController extends Controller
             return response()->json(['error' => 'Nome do deputado é obrigatório'], 400);
         }
 
-        $deputies = Deputado::where('nome', 'like', "%{$name}%")->get();
+        $deputies = Deputado::where('nome', 'like', "%{$name}%")->limit(10)->get();
         if ($deputies->isEmpty()) {
             $apiDeputies = $this->openDataInterface->getDeputados(new DeputadosRequestDTO(nome: $name))->dados;
             FetchAndStoreDeputyData::dispatch(new DeputadosResponseDTO($apiDeputies));

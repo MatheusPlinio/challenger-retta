@@ -14,14 +14,3 @@ class DeputadoProfissoesResponseDTO
     ) {
     }
 }
-
-class ProfissaoDTO
-{
-    public function __construct(
-        public string $titulo,
-        public string $descricao,
-        public string $inicio,
-        public ?string $fim
-    ) {
-    }
-}
