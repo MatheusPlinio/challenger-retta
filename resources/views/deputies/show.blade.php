@@ -18,10 +18,10 @@
                             {{ $year }}</option>
                     @endforeach
                 </select>
-                <h3 class="text-lg font-semibold mb-4">Despesas por Mês (mock)</h3>
+                <h3 class="text-lg font-semibold mb-4">Despesas por Mês</h3>
                 <canvas id="monthlyExpensesChart" class="mb-8"></canvas>
 
-                <h3 class="text-lg font-semibold mb-4">Categorias de Gasto (mock)</h3>
+                <h3 class="text-lg font-semibold mb-4">Categorias de Gasto</h3>
                 <canvas id="expenseCategoryChart"></canvas>
             </div>
         </div>

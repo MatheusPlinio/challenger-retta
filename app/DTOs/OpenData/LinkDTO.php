@@ -19,4 +19,13 @@ class LinkDTO
             type: $data['type'] ?? null
         );
     }
+
+    public function toArray(): array
+    {
+        return array_filter([
+            'href' => $this->href,
+            'rel' => $this->rel,
+            'type' => $this->type
+        ], fn($v) => !is_null($v));
+    }
 }

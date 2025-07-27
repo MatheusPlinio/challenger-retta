@@ -14,25 +14,3 @@ class DeputadoMandatosExternosResponseDTO
     ) {
     }
 }
-
-class MandatoExternoDTO
-{
-    public function __construct(
-        public string $titulo,
-        public string $entidade,
-        public string $uf,
-        public string $inicio,
-        public string $fim
-    ) {
-    }
-}
-
-class LinkDTO
-{
-    public function __construct(
-        public string $href,
-        public string $rel,
-        public string $type
-    ) {
-    }
-}

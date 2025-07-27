@@ -2,30 +2,6 @@
 
 namespace App\DTOs\OpenData;
 
-class DeputadoByIdResponseDTO
-{
-    /**
-     * @param LinkDTO[] $links
-     */
-    public function __construct(
-        public readonly DeputadoDetailDTO $dados,
-        public readonly array $links
-    ) {
-    }
-
-    public static function fromArray(array $data): self
-    {
-        $dados = DeputadoDetailDTO::fromArray($data['dados']);
-
-        $links = array_map(
-            fn(array $link) => LinkDTO::fromArray($link),
-            $data['links'] ?? []
-        );
-
-        return new self($dados, $links);
-    }
-}
-
 class UltimoStatusDTO
 {
     public function __construct(
