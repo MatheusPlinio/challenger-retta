@@ -22,18 +22,17 @@ class FetchAndStoreDeputyData implements ShouldQueue
      */
     public function __construct(
         public DeputadosResponseDTO $deputies,
-        protected DeputadoRepositoryInterface $deputyRepository
     ) {
     }
 
     /**
      * Execute the job.
      */
-    public function handle(): void
+    public function handle(DeputadoRepositoryInterface $deputyRepository): void
     {
         foreach ($this->deputies->dados as $deputy) {
             try {
-                $this->deputyRepository->storeOrUpdate($deputy);
+                $deputyRepository->storeOrUpdate($deputy);
             } catch (\Throwable $e) {
                 Log::error('Erro no FetchANdStoreDeputyData: ' . $e->getMessage());
                 throw $e;
