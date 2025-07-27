@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 class Deputado extends Model
@@ -23,5 +24,19 @@ class Deputado extends Model
     public function despesas()
     {
         return $this->hasMany(Despesa::class);
+    }
+
+    public function despesasPorMes(): Collection
+    {
+        return $this->despesas
+            ->groupBy(fn($item) => \Carbon\Carbon::parse($item->dataDocumento)->format('Y-m'))
+            ->map(fn($group) => $group->sum('valorDocumento'));
+    }
+
+    public function despesasPorCategoria(): Collection
+    {
+        return $this->despesas
+            ->groupBy('tipoDespesa')
+            ->map(fn($group) => $group->sum('valorDocumento'));
     }
 }

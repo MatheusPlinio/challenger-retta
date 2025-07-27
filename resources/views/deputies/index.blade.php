@@ -14,7 +14,7 @@
             <div class="max-w-4xl mx-auto mt-6 bg-white rounded-lg shadow p-4">
                 <h3 class="text-lg font-semibold mb-3">Resultados da pesquisa:</h3>
                 <ul class="space-y-2">
-                    @foreach ($deputies->dados as $deputy)
+                    @foreach ($deputies as $deputy)
                         <li class="border-b pb-2">
                             <a href="{{ route('deputies.show', $deputy->id) }}" class="text-blue-600 hover:underline">
                                 {{ $deputy->nome }} (ID: {{ $deputy->id }})

@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->text("uri")->nullable();
             $table->string("nome");
-            $table->string("siglaPartido", 8)->nullable();
+            $table->string("siglaPartido")->nullable();
             $table->text("uriPartido")->nullable();
-            $table->char("siglaUf", 2)->nullable();
+            $table->char("siglaUf")->nullable();
             $table->bigInteger("idLegislatura")->nullable();
             $table->text("urlFoto")->nullable();
             $table->string("email")->nullable();

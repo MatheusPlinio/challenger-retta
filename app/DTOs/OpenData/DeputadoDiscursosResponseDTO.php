@@ -82,22 +82,3 @@ class FaseEventoDTO
         );
     }
 }
-
-class LinkDTO
-{
-    public function __construct(
-        public readonly ?string $href,
-        public readonly ?string $rel,
-        public readonly ?string $type
-    ) {
-    }
-
-    public static function fromArray(array $data): self
-    {
-        return new self(
-            href: $data['href'] ?? null,
-            rel: $data['rel'] ?? null,
-            type: $data['type'] ?? null
-        );
-    }
-}
