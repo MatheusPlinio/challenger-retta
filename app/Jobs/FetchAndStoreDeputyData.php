@@ -2,8 +2,10 @@
 
 namespace App\Jobs;
 
+use App\DTOs\OpenData\DeputadoDTO;
 use App\DTOs\OpenData\DeputadosResponseDTO;
 use App\Models\Deputado;
+use App\Repositories\Contracts\DeputadoRepositoryInterface;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
@@ -18,8 +20,10 @@ class FetchAndStoreDeputyData implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(public DeputadosResponseDTO $deputies)
-    {
+    public function __construct(
+        public DeputadosResponseDTO $deputies,
+        protected DeputadoRepositoryInterface $deputyRepository
+    ) {
     }
 
     /**
@@ -29,19 +33,7 @@ class FetchAndStoreDeputyData implements ShouldQueue
     {
         foreach ($this->deputies->dados as $deputy) {
             try {
-                $deputy = Deputado::updateOrCreate(
-                    ['id' => $deputy->id],
-                    [
-                        'uri' => $deputy->uri,
-                        'nome' => $deputy->nome,
-                        'siglaPartido' => $deputy->siglaPartido,
-                        'uriPartido' => $deputy->uriPartido,
-                        'siglaUf' => $deputy->siglaUf,
-                        'idLegislatura' => $deputy->idLegislatura,
-                        'urlFoto' => $deputy->urlFoto,
-                        'email' => $deputy->email,
-                    ]
-                );
+                $this->deputyRepository->storeOrUpdate($deputy);
             } catch (\Throwable $e) {
                 Log::error('Erro no FetchANdStoreDeputyData: ' . $e->getMessage());
                 throw $e;
